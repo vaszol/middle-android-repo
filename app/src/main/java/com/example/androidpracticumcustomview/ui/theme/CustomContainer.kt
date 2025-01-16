@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
+import androidx.core.view.children
 
 /*
 Задание:
@@ -15,7 +16,8 @@ import android.widget.FrameLayout
  */
 
 class CustomContainer @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null
+    context: Context, attrs: AttributeSet? = null,
+    private val animateDuration: Long = 2000
 ) : FrameLayout(context, attrs) {
 
     init {
@@ -24,17 +26,35 @@ class CustomContainer @JvmOverloads constructor(
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        // TODO
-        // ...
+        val widthSize = MeasureSpec.getSize(widthMeasureSpec)
+        val heightSize = MeasureSpec.getSize(heightMeasureSpec)
+
+        setMeasuredDimension(widthSize, heightSize)
     }
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
-        // TODO
-        // ...
+        children.forEach { item ->
+            if (item.alpha == 1f) {
+                val y = when (children.indexOf(item)) {
+                    0 -> -measuredHeight / 4f
+                    else -> measuredHeight / 4f
+                }
+
+                item.apply { alpha = 0f }
+                item
+                    .animate()
+                    .alpha(1f)
+                    .translationY(y)
+                    .setDuration(animateDuration)
+            }
+        }
+        super.onLayout(changed, left, top, right, bottom)
     }
 
     override fun addView(child: View) {
-        // TODO
-        // ...
+        if (childCount == 2) {
+            throw IllegalStateException()
+        }
+        this.addView(child, childCount)
     }
 }
