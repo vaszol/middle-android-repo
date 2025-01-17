@@ -46,10 +46,12 @@ class CustomContainer @JvmOverloads constructor(
                     .animate()
                     .alpha(1f)
                     .setDuration(animateAlfaDuration)
+                    .start()
                 item
                     .animate()
                     .translationY(y)
                     .setDuration(animateYDuration)
+                    .start()
             }
         }
         super.onLayout(changed, left, top, right, bottom)
