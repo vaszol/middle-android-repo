@@ -17,7 +17,8 @@ import androidx.core.view.children
 
 class CustomContainer @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null,
-    private val animateDuration: Long = 2000
+    private val animateAlfaDuration: Long = 2000,
+    private val animateYDuration: Long = 5000
 ) : FrameLayout(context, attrs) {
 
     init {
@@ -44,8 +45,11 @@ class CustomContainer @JvmOverloads constructor(
                 item
                     .animate()
                     .alpha(1f)
+                    .setDuration(animateAlfaDuration)
+                item
+                    .animate()
                     .translationY(y)
-                    .setDuration(animateDuration)
+                    .setDuration(animateYDuration)
             }
         }
         super.onLayout(changed, left, top, right, bottom)

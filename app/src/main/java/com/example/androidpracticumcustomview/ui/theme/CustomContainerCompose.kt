@@ -17,6 +17,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 /*
@@ -31,7 +32,8 @@ import kotlinx.coroutines.launch
 fun CustomContainerCompose(
     firstChild: @Composable (() -> Unit)?,
     secondChild: @Composable (() -> Unit)?,
-    animateDuration: Long = 2000
+    animateAlfaDuration: Long = 2000,
+    animateYDuration: Long = 5000
 ) {
     // Блок создания и инициализации переменных
     var size by remember {
@@ -45,12 +47,15 @@ fun CustomContainerCompose(
     // Блок активации анимации при первом запуске
     LaunchedEffect(Unit) {
         launch {
-            firstChildAlpha.animateTo(targetValue = 1f, tween(animateDuration.toInt()))
-            secondChildAlpha.animateTo(targetValue = 1f, tween(animateDuration.toInt()))
+            firstChildAlpha.animateTo(targetValue = 1f, tween(animateAlfaDuration.toInt()))
+            secondChildAlpha.animateTo(targetValue = 1f, tween(animateAlfaDuration.toInt()))
         }
         launch {
-            firstChildTop.animateTo((-size.height / 7).toFloat(), tween(animateDuration.toInt()))
-            secondChildTop.animateTo((size.height / 7).toFloat(), tween(animateDuration.toInt()))
+            firstChildTop.animateTo((-size.height / 7).toFloat(), tween(animateYDuration.toInt()))
+        }
+        launch {
+            delay(animateAlfaDuration)
+            secondChildTop.animateTo((size.height / 7).toFloat(), tween(animateYDuration.toInt()))
         }
     }
 
