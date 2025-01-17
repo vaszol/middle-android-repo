@@ -3,9 +3,12 @@ package com.example.androidpracticumcustomview
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.Gravity
 import android.widget.TextView
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
 import com.example.androidpracticumcustomview.ui.theme.CustomContainer
+import com.example.androidpracticumcustomview.ui.theme.MainScreen
 
 /*
 Задание:
@@ -20,7 +23,8 @@ class MainActivity : ComponentActivity() {
          */
         startXmlPracticum() // «традиционный» android (XML)
 //          setContent { // Jetpack Compose
-//             MainScreen()
+//              MainScreen()
+//          }
     }
 
     private fun startXmlPracticum() {
@@ -28,14 +32,18 @@ class MainActivity : ComponentActivity() {
         setContentView(customContainer)
 
         val firstView = TextView(this).apply {
-            // TODO
-            // ...
+            text = context.getString(R.string.hello)
+            gravity = Gravity.CENTER
+            textSize = 30f
         }
 
         val secondView = TextView(this).apply {
-            // TODO
-            // ...
+            text = context.getString(R.string.world)
+            gravity = Gravity.CENTER
+            textSize = 30f
         }
+
+        customContainer.addView(firstView)
 
         // Добавление второго элемента через некоторое время
         Handler(Looper.getMainLooper()).postDelayed({
